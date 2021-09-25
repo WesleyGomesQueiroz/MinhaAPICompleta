@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "PKiijN3QF3gomwE+Khl8FX9XcibziJazCBCAbaVlpL+BrLCeAzvMccqvYK1oOpNUNgBbiBQ4oUGgxtWZPAo7+Q==",
+  "dgSpecHash": "DphVpy2zN24VHrSRQrCMbEaNkV/vLoLPvMXqnEG0sgK1aw3BkshWjArGCvgGqkVv/6vn+qVLMjo0cQEVP2xXIw==",
   "success": true,
   "projectFilePath": "C:\\Desenvolvedor.io\\REST com ASP.NET Core WebAPI\\MinhaAPICompleta\\src\\DevIO.Api\\DevIO.Api.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\wesle\\.nuget\\packages\\automapper\\8.1.0\\automapper.8.1.0.nupkg.sha512",
+    "C:\\Users\\wesle\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\6.1.0\\automapper.extensions.microsoft.dependencyinjection.6.1.0.nupkg.sha512",
     "C:\\Users\\wesle\\.nuget\\packages\\fluentvalidation\\8.3.0\\fluentvalidation.8.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnet.webapi.client\\5.2.6\\microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",
     "C:\\Users\\wesle\\.nuget\\packages\\microsoft.aspnetcore\\2.2.0\\microsoft.aspnetcore.2.2.0.nupkg.sha512",
