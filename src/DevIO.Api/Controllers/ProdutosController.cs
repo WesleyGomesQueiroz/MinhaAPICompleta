@@ -2,6 +2,7 @@
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
@@ -62,6 +63,31 @@ namespace DevIO.Api.Controllers
             return CustomResponse(produtoViewModel);
         }
 
+        [RequestSizeLimit(40000000)]
+        //[DisableRequestSizeLimit]
+        [HttpPost("imagem")]
+        public async Task<ActionResult> AdicionarImagem(IFormFile file)
+        {
+            return Ok(file);
+        }
+
+        [HttpPost("Adicionar")]
+        public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo(ProdutoImagemViewModel produtoViewModel)
+        {
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            var imgPrefixo = Guid.NewGuid() + "_";
+            if (!await UploadArquivoAlternativo(produtoViewModel.Imagemupload, imgPrefixo))
+            {
+                return CustomResponse(ModelState);
+            }
+
+            produtoViewModel.Imagem = imgPrefixo + produtoViewModel.Imagemupload.FileName;
+            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+
+            return CustomResponse(produtoViewModel);
+        }
+
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> Excluir(Guid id)
         {
@@ -69,12 +95,13 @@ namespace DevIO.Api.Controllers
 
             if (produto == null) return NotFound();
 
+            await _produtoService.Remover(id);
+
             return CustomResponse(produto);
         }
 
         private bool UploadArquivo(string arquivo, string imgNome)
         {
-            var imageDataByteArray = Convert.FromBase64String(arquivo);
 
             if (string.IsNullOrEmpty(arquivo))
             {
@@ -82,7 +109,9 @@ namespace DevIO.Api.Controllers
                 return false;
             }
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagens", imgNome);
+            var imageDataByteArray = Convert.FromBase64String(arquivo);
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "C:\\Desenvolvedor.io\\demo-webapi\\src\\assets\\", imgNome);
 
             if (System.IO.File.Exists(filePath))
             {
@@ -91,6 +120,30 @@ namespace DevIO.Api.Controllers
             }
 
             System.IO.File.WriteAllBytes(filePath, imageDataByteArray);
+
+            return true;
+        }
+
+        private async Task<bool> UploadArquivoAlternativo(IFormFile arquivo, string imgPrefixo)
+        {
+            if (arquivo == null || arquivo.Length == 0)
+            {
+                NotificarErro(mensagem: "Forneça uma imagem para este produto");
+                return false;
+            }
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "C:\\Desenvolvedor.io\\demo-webapi\\src\\assets\\", imgPrefixo + arquivo.FileName);
+
+            if (System.IO.File.Exists(path))
+            {
+                NotificarErro(mensagem: "Ja existe um arquivo com este nome!");
+                return false;
+            }
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await arquivo.CopyToAsync(stream);
+            }
 
             return true;
         }
