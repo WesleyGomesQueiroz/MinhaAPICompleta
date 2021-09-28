@@ -88,6 +88,41 @@ namespace DevIO.Api.Controllers
             return CustomResponse(produtoViewModel);
         }
 
+        [HttpPut("id:guid")]
+        public async Task<IActionResult> Atualizar(Guid id, ProdutoViewModel produtoViewModel)
+        {
+            if (id != produtoViewModel.Id)
+            {
+                NotificarErro(mensagem: "Os ids informados nao sao iguais!");
+                return CustomResponse();
+            }
+
+            var produtoAtualizacao = await ObterProduto(id);
+            produtoViewModel.Imagem = produtoAtualizacao.Imagem;
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            if (produtoViewModel.Imagemupload != null)
+            {
+                var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
+                if (!UploadArquivo(produtoViewModel.Imagemupload, imagemNome))
+                {
+                    return CustomResponse(ModelState);
+                }
+
+                produtoAtualizacao.Imagem = imagemNome;
+            }
+
+            produtoAtualizacao.Nome = produtoViewModel.Nome;
+            produtoAtualizacao.Descricao = produtoViewModel.Descricao;
+            produtoAtualizacao.Valor = produtoViewModel.Valor;
+            produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+
+            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+
+            return CustomResponse(produtoViewModel);
+
+        }
+
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> Excluir(Guid id)
         {
