@@ -6,4 +6,3 @@ C:\Desenvolvedor.io\REST com ASP.NET Core WebAPI\MinhaAPICompleta\src\DevIO.Busi
 C:\Desenvolvedor.io\REST com ASP.NET Core WebAPI\MinhaAPICompleta\src\DevIO.Business\obj\Debug\netcoreapp2.2\DevIO.Business.csproj.CoreCompileInputs.cache
 C:\Desenvolvedor.io\REST com ASP.NET Core WebAPI\MinhaAPICompleta\src\DevIO.Business\obj\Debug\netcoreapp2.2\DevIO.Business.dll
 C:\Desenvolvedor.io\REST com ASP.NET Core WebAPI\MinhaAPICompleta\src\DevIO.Business\obj\Debug\netcoreapp2.2\DevIO.Business.pdb
-C:\Desenvolvedor.io\REST com ASP.NET Core WebAPI\MinhaAPICompleta\src\DevIO.Business\obj\Debug\netcoreapp2.2\DevIO.Business.csprojAssemblyReference.cache
